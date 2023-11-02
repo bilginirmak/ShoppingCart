@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,9 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.Controllers
 {
+
+    [Authorize]
+
     public class ItemsController : Controller
     {
         private readonly ShoppingCartContext _context;
@@ -44,12 +48,14 @@ namespace ShoppingCart.Controllers
 
             return View(item);
         }
+        [Authorize(Roles = "Admin")]
 
         // GET: Items/Create
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
 
         // POST: Items/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
