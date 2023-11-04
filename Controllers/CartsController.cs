@@ -11,7 +11,7 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class CartsController : Controller
     {
         private readonly ShoppingCartContext _context;
@@ -20,6 +20,39 @@ namespace ShoppingCart.Controllers
         {
             _context = context;
         }
+
+
+        public async Task<IActionResult> AddToCart(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var cart = await _context.Cart.Include(c => c.Items).FirstOrDefaultAsync();
+
+            if (cart == null)
+            {
+                cart = new Cart();
+                _context.Cart.Add(cart);
+            }
+
+            cart.Items.Add(new CartItem { Item = item });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
 
         // GET: Carts
         public async Task<IActionResult> Index()

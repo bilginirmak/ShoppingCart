@@ -66,7 +66,7 @@ namespace ShoppingCart
                 }
             }
 
-           /* //seed admin
+            //seed admin
 
             using (var scope = app.Services.CreateScope())
             {
@@ -90,7 +90,7 @@ namespace ShoppingCart
                 }
             }
 
-            */
+            
             app.Run();
                 }
             }
