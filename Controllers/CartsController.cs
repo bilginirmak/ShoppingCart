@@ -171,7 +171,7 @@ namespace ShoppingCart.Controllers
             return View(cart);
         }
 
-        // POST: Carts/Delete/5
+        // POST: Carts/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
