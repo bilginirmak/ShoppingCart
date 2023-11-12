@@ -237,7 +237,7 @@ namespace ShoppingCart.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingCart.Models.CartItem", b =>
@@ -260,7 +260,7 @@ namespace ShoppingCart.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("CartItem");
+                    b.ToTable("CartItem", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingCart.Models.Item", b =>
@@ -283,7 +283,7 @@ namespace ShoppingCart.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("Item", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingCart.Models.User", b =>
@@ -305,7 +305,7 @@ namespace ShoppingCart.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

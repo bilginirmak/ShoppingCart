@@ -21,7 +21,6 @@ namespace ShoppingCart.Controllers
             _context = context;
         }
 
-
         public async Task<IActionResult> AddToCart(int? id)
         {
             if (id == null)
@@ -30,36 +29,37 @@ namespace ShoppingCart.Controllers
             }
 
             var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
-
             if (item == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Cart.Include(c => c.Items).FirstOrDefaultAsync();
-
+            var cart = await _context.Cart.FirstOrDefaultAsync(m => m.Id == 1);
             if (cart == null)
             {
                 cart = new Cart();
-                _context.Cart.Add(cart);
+                _context.Add(cart);
+                await _context.SaveChangesAsync();
             }
 
-            cart.Items.Add(new CartItem { Item = item });
+            var cartItem = new CartItem
+            {
+                CartId = cart.Id,
+                ItemId = item.Id
+            };
 
+            _context.Add(cartItem);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-
-
-
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-              return _context.Cart != null ? 
-                          View(await _context.Cart.ToListAsync()) :
-                          Problem("Entity set 'ShoppingCartContext.Cart'  is null.");
+            return _context.Cart != null ?
+                        View(await _context.Cart.ToListAsync()) :
+                        Problem("Entity set 'ShoppingCartContext.Cart'  is null.");
         }
 
         // GET: Carts/Details/5
@@ -185,14 +185,14 @@ namespace ShoppingCart.Controllers
             {
                 _context.Cart.Remove(cart);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CartExists(int id)
         {
-          return (_context.Cart?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Cart?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

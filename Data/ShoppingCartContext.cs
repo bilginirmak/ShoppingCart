@@ -20,5 +20,6 @@ namespace ShoppingCart.Data
         public DbSet<ShoppingCart.Models.Item> Item { get; set; } = default!;
 
         public DbSet<ShoppingCart.Models.Cart> Cart { get; set; } = default!;
+        public DbSet<ShoppingCart.Models.CartItem> CartItem { get; set; } = default!;
     }
 }
